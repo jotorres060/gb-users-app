@@ -1,0 +1,49 @@
+<div *ngIf="modifiedDates.length > 0" class="row mb-4">
+  <div class="col-md-6 col-lg-4">
+      <label for="modifiedDates">Modified dates:</label>
+      <select (change)="filterUsers(modifiedDatesSelect.value)" class="custom-select" id="modifiedDates" #modifiedDatesSelect>
+        <option value="">Select a date...</option>
+        <option *ngFor="let mDate of modifiedDates" [value]="mDate.updated_at">
+          {{ mDate.updated_at }}
+        </option>
+      </select>
+  </div>
+</div>
+
+<button class="btn btn-primary btn-sm mr-1 my-3" (click)="createUser()">Create user</button>
+
+<div *ngIf="users.length > 0; else noData">
+  <div class="table-responsive">
+    <table class="table table-bordered table-sm table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Gender</th>
+          <th></th>
+        </tr>
+      </thead>
+        <tbody>
+          <tr *ngFor="let user of users;">
+            <td>{{ user.id }}</td>
+            <td>{{ user.name | titlecase }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.gender }}</td>
+            <td>
+              <button type="button" class="btn btn-secondary btn-sm btn-info mr-1" (click)="findUser(user.id)">View</button>
+              <button type="button" class="btn btn-secondary btn-sm btn-danger" (click)="deleteUser(user.id)">Delete</button>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #noData>
+  <div class="alert alert-primary" role="alert">
+    No data found.
+  </div>
+</ng-template>
+
+<pre *ngIf="user">{{ user | json }}</pre>
